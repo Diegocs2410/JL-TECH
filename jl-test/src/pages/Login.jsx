@@ -22,7 +22,7 @@ const Login = () => {
     setUserData({ ...userData, [name]: value })
   }
   return (
-    <>
+    <div className='container'>
       {isLoading ? (
         <Loading />
       ) : (
@@ -69,7 +69,7 @@ const Login = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

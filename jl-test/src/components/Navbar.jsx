@@ -17,7 +17,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='navbar navbar-expand-xl navbar-dark bg-dark'>
+    <nav className='navbar navbar-expand-xl navbar-dark bg-dark shadow sticky-top'>
       <div className='container '>
         <NavLink to='/' className='navbar-brand'>
           JL Test
@@ -62,7 +62,7 @@ const Navbar = () => {
             <ul className='navbar-nav mb-2 mb-lg-0 d-flex justify-content-center align-items-center'>
               <li className='nav-item d-flex align-items-center'>
                 <NavLink
-                  to='/'
+                  to='/dashboard'
                   className='nav-link d-flex align-items-center justify-content-center'
                 >
                   <img
@@ -75,13 +75,13 @@ const Navbar = () => {
                       objectFit: 'cover'
                     }}
                   />
-                  <button
-                    onClick={handleLogout}
-                    className='ms-2 btn btn-warning btn-sm'
-                  >
-                    Sign Out
-                  </button>
                 </NavLink>
+                <button
+                  onClick={handleLogout}
+                  className='ms-2 btn btn-warning btn-sm'
+                >
+                  Sign Out
+                </button>
               </li>
             </ul>
           )}

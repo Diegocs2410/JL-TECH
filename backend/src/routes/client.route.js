@@ -3,12 +3,17 @@ const {
   getClient,
   createClient,
   updateClient,
-  deleteClient,
-} = require("../controllers/client.controller");
-const router = require("express").Router();
+  deleteClient
+} = require('../controllers/client.controller')
+const verifyToken = require('../middlewares/verifyJWT')
+const router = require('express').Router()
 
-router.route("/").get(getAll).post(createClient);
+router.route('/').get(verifyToken, getAll).post(verifyToken, createClient)
 
-router.route("/:id").get(getClient).put(updateClient).delete(deleteClient);
+router
+  .route('/:id')
+  .get(verifyToken, getClient)
+  .put(verifyToken, updateClient)
+  .delete(verifyToken, deleteClient)
 
-module.exports = router;
+module.exports = router
