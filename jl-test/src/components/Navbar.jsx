@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import useAuthUser from '../context/AuthUser'
 
@@ -11,7 +11,6 @@ const Navbar = () => {
   // context
   const navigate = useNavigate()
   const { logout, userLogged } = useAuthUser()
-  console.log(userLogged.data.user)
   // Handle logout
   const handleLogout = () => {
     logout(navigate)
@@ -90,12 +89,16 @@ const Navbar = () => {
                       aria-expanded='false'
                     ></button>
                     <ul className='dropdown-menu' aria-labelledby='userOptions'>
-                      <NavLink to='/register' className='dropdown-item'>
-                        Crear Usuario
-                      </NavLink>
-                      <NavLink to='/addclient' className='dropdown-item'>
-                        Registrar Cliente
-                      </NavLink>
+                      {userLogged.role === 'admin' && (
+                        <>
+                          <NavLink to='/register' className='dropdown-item'>
+                            Crear Usuario
+                          </NavLink>
+                          <NavLink to='/createclient' className='dropdown-item'>
+                            Modulo Clientes
+                          </NavLink>
+                        </>
+                      )}
                       <button onClick={handleLogout} className='dropdown-item'>
                         Sign Out
                       </button>

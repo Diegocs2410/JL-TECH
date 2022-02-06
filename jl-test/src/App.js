@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import CreateClient from './components/CreateClient'
 import Navbar from './components/Navbar'
 import UserDetails from './components/UserDetails'
 import useAuthUser from './context/AuthUser'
@@ -43,6 +44,14 @@ function App() {
             element={
               <PrivateRoute>
                 <UserDetails />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/createclient'
+            element={
+              <PrivateRoute>
+                <CreateClient />
               </PrivateRoute>
             }
           />

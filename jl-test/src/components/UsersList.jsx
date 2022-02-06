@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card } from 'antd'
 import { Link } from 'react-router-dom'
+import useAuthUser from '../context/AuthUser'
 const { Meta } = Card
 
 const roleArr = ['admin', 'rh', 'vendedor', 'bodeguero']
@@ -22,13 +23,30 @@ const styleStr = role => {
 
 const UsersList = ({ user, isLoading }) => {
   const { name, avatar, contact, role, _id } = user
+  const { userLogged } = useAuthUser
+
+  // Handle delete user
+  const handleDelete = async () => {}
+
   return (
     <Card
       size='large'
       title={name.toUpperCase()}
       hoverable
       loading={isLoading}
-      extra={<Link to={`/userdetails/${_id}`}>Editar</Link>}
+      extra={
+        <>
+          <Link to={`/userdetails/${_id}`}>Editar</Link>
+          {/* {userLogged.user.role === 'admin' && (
+            <button
+              className='btn btn-danger btn-sm ms-2'
+              onClick={handleDelete}
+            >
+              Eliminar
+            </button>
+          )} */}
+        </>
+      }
       style={{ width: 240, height: 360, margin: '10px' }}
       cover={
         <img

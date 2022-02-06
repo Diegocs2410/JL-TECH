@@ -76,28 +76,19 @@ const UserDetails = () => {
     }
   }
 
-  const showModal = () => {
-    setIsModalVisible(true)
-  }
+  const showModal = () => setIsModalVisible(true)
 
-  const handleCancel = () => {
-    setIsModalVisible(false)
-  }
+  const handleCancel = () => setIsModalVisible(false)
 
   const handleSubmit = e => {
     e.preventDefault()
     updateUser()
   }
-  const handleAction = () => {
-    console.log('Hello')
-  }
-  const handleOk = () => {
-    setIsModalVisible(false)
-  }
+  const handleOk = () => setIsModalVisible(false)
+
   const validateFormat = e => {
     if (e.target.files[0].type && e.target.files) {
       const image = e.target.files[0]
-      console.log(image)
       if (
         image.type === 'image/jpeg' ||
         image.type === 'image/jpeg' ||
@@ -222,7 +213,6 @@ const UserDetails = () => {
                 defaultValue='admin'
                 style={{ width: 150 }}
                 onChange={handleChange}
-                allowClear
               >
                 <Option value='admin'>Admin</Option>
                 <Option value='rh'>Recursos Humanos</Option>
