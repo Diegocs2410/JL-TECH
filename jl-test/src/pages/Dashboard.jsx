@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   return (
     <div className='container'>
-      <h1 className='text-danger mt-3'>Lista Usuarios Actuales</h1>
+      <h1 className='text-danger mt-3'>Usuarios</h1>
       {isLoading ? (
         <Loading />
       ) : (

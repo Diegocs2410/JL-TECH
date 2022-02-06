@@ -1,10 +1,8 @@
-import { Card, Select } from 'antd'
+import { Card, Select, Modal, Button } from 'antd'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import ModalEdit from './ModalEdit'
-import { Modal, Button } from 'antd'
 
 const { Option } = Select
 
@@ -15,13 +13,13 @@ const UserDetails = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState({})
   const userLogged = JSON.parse(localStorage.getItem('user'))
+  const [newImg, setNewImg] = useState('')
 
   const options = {
     headers: {
       authorization: 'Bearer ' + userLogged.data.token
     }
   }
-  const [newImg, setNewImg] = useState('')
 
   useEffect(() => {
     const fetchUserById = async () => {
@@ -226,10 +224,10 @@ const UserDetails = () => {
                 onChange={handleChange}
                 allowClear
               >
-                <Option value='Admin'>Admin</Option>
-                <Option value='Recursos Humanos'>Recursos Humanos</Option>
-                <Option value='Vendedor'>Vendedor</Option>
-                <Option value='Bodeguero'>Bodeguero</Option>
+                <Option value='admin'>Admin</Option>
+                <Option value='rh'>Recursos Humanos</Option>
+                <Option value='vendedor'>Vendedor</Option>
+                <Option value='bodeguero'>Bodeguero</Option>
               </Select>
             </div>
             <button type='submit' className='btn btn-primary btn-sm w-25 '>

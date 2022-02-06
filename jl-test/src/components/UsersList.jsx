@@ -3,6 +3,23 @@ import { Card } from 'antd'
 import { Link } from 'react-router-dom'
 const { Meta } = Card
 
+const roleArr = ['admin', 'rh', 'vendedor', 'bodeguero']
+
+const styleStr = role => {
+  switch (role) {
+    case 'admin':
+      return 'Administrador'
+    case 'rh':
+      return 'Recursos Humanos'
+    case 'vendedor':
+      return 'Vendedor'
+    case 'bodeguero':
+      return 'Bodeguero'
+    default:
+      return 'Administrador'
+  }
+}
+
 const UsersList = ({ user, isLoading }) => {
   const { name, avatar, contact, role, _id } = user
   return (
@@ -28,7 +45,7 @@ const UsersList = ({ user, isLoading }) => {
     >
       <div className='d-flex'>
         <span className='badge bg-primary me-2 mb-2'>Role: </span>
-        <Meta title={role} />
+        <Meta title={styleStr(role)} />
       </div>
       <div className='d-flex'>
         <span className='badge bg-primary me-2'>Contacto: </span>
