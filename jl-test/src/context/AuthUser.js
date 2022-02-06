@@ -74,6 +74,7 @@ export const AuthUserProvider = ({ children }) => {
       })
     }
   }
+
   //   Logout function
   const logout = navigate => {
     setIsLoading(true)

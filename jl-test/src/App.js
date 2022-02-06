@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import UserDetails from './components/UserDetails'
 import useAuthUser from './context/AuthUser'
 import Dashboard from './pages/Dashboard'
 import Home from './pages/Home'
@@ -34,6 +35,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/userdetails/:id'
+            element={
+              <PrivateRoute>
+                <UserDetails />
               </PrivateRoute>
             }
           />
