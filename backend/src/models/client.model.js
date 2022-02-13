@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require("mongoose")
 
 const ClientSchema = new Schema({
   name: {
@@ -17,7 +17,7 @@ const ClientSchema = new Schema({
     ],
   },
   contact: {
-    type: Number,
+    type: String,
     required: [true, "Contact is required"],
     trim: true,
   },
@@ -31,6 +31,6 @@ const ClientSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-});
+})
 
-module.exports = model("Client", ClientSchema);
+module.exports = model("Client", ClientSchema)
