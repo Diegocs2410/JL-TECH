@@ -1,20 +1,21 @@
-import axios from 'axios'
-import { createContext, useState, useContext, useEffect } from 'react'
-import Swal from 'sweetalert2'
+import axios from "axios"
+import { createContext, useState, useContext, useEffect } from "react"
+import Swal from "sweetalert2"
 const AuthUserContext = createContext(null)
 
 const initialState = {
   ok: false,
-  message: '',
-  data: {}
+  message: "",
+  data: {},
 }
 
 // Provider
 export const AuthUserProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [userLogged, setUserLogged] = useState(initialState)
+
   useEffect(() => {
-    const user = localStorage.getItem('user')
+    const user = localStorage.getItem("user")
     if (user) setUserLogged(JSON.parse(user))
   }, [])
 
@@ -22,73 +23,93 @@ export const AuthUserProvider = ({ children }) => {
   const login = async (userData, navigate) => {
     try {
       setIsLoading(true)
-      const { data } = await axios.post('/users/login', userData)
-      localStorage.setItem('user', JSON.stringify(data))
+      const { data } = await axios.post("/users/login", userData)
+      localStorage.setItem("user", JSON.stringify(data))
       setUserLogged(data)
       setIsLoading(false)
       Swal.fire({
-        title: 'Login Satisfactorio',
-        text: 'Bienvenido sr(a) ' + data.data.user.name.toUpperCase(),
-        icon: 'success',
+        title: "Login Satisfactorio",
+        text: "Bienvenido sr(a) " + data.data.user.name.toUpperCase(),
+        icon: "success",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
-      navigate('/dashboard')
+      navigate("/dashboard")
     } catch (error) {
       console.log(error)
       setIsLoading(false)
       Swal.fire({
-        title: 'Error',
-        text: 'Usuario o contraseña incorrectos',
-        icon: 'error',
+        title: "Error",
+        text: "Usuario o contraseña incorrectos",
+        icon: "error",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
     }
   }
-  //   Register
 
+  //   Register
   const register = async (userData, navigate) => {
     try {
       setIsLoading(true)
-      const { data } = await axios.post('/users', userData)
-      localStorage.setItem('user', JSON.stringify(data))
+      const { data } = await axios.post("/users", userData)
+      localStorage.setItem("user", JSON.stringify(data))
       setUserLogged(data)
       setIsLoading(false)
       Swal.fire({
-        title: 'Registro Satisfactorio',
-        text: 'Bienvenido sr(a) ' + data.data.user.name.toUpperCase(),
-        icon: 'success',
+        title: "Registro Satisfactorio",
+        text: "Bienvenido sr(a) " + data.data.user.name.toUpperCase(),
+        icon: "success",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
-      navigate('/dashboard')
+      navigate("/dashboard")
     } catch (error) {
       console.log(error)
       Swal.fire({
-        title: 'Error',
-        text: ' El usuario ya existe, intente con otro nombre de usuario',
-        icon: 'error',
+        title: "Error",
+        text: " El usuario ya existe, intente con otro nombre de usuario",
+        icon: "error",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       })
     }
   }
 
   //   Logout function
-  const logout = navigate => {
+  const logout = (navigate) => {
     setIsLoading(true)
-    localStorage.removeItem('user')
+    localStorage.removeItem("user")
     setUserLogged(initialState)
     Swal.fire({
-      title: 'Cerrando Sesión',
-      text: 'Hasta pronto',
-      icon: 'success',
+      title: "Cerrando Sesión",
+      text: "Hasta pronto",
+      icon: "success",
       showConfirmButton: false,
-      timer: 1500
+      timer: 1500,
     })
-    navigate('/')
+    navigate("/")
     setIsLoading(false)
+  }
+
+  //   Get Clients
+  const getClients = async () => {
+    try {
+      setIsLoading(true)
+      const { data } = await axios.get("/clients", {
+        headers: {
+          Authorization: `Bearer ${userLogged.data.token}`,
+        },
+        params: {
+          user: userLogged.data.user._id,
+        },
+      })
+      setIsLoading(false)
+      return data.data
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
   }
 
   const value = {
@@ -96,7 +117,9 @@ export const AuthUserProvider = ({ children }) => {
     userLogged,
     login,
     register,
-    logout
+    logout,
+    setIsLoading,
+    getClients,
   }
 
   return (
@@ -109,7 +132,7 @@ export const AuthUserProvider = ({ children }) => {
 const useAuthUser = () => {
   const context = useContext(AuthUserContext)
   if (context === undefined)
-    throw new Error('useAuthUser must be used within a AuthUserProvider')
+    throw new Error("useAuthUser must be used within a AuthUserProvider")
 
   return context
 }
