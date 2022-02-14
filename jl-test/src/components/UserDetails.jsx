@@ -1,8 +1,8 @@
-import { Card, Select, Modal, Button } from 'antd'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import Swal from 'sweetalert2'
+import { Card, Select, Modal, Button } from "antd"
+import axios from "axios"
+import React, { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import Swal from "sweetalert2"
 
 const { Option } = Select
 
@@ -12,13 +12,13 @@ const UserDetails = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [user, setUser] = useState({})
-  const userLogged = JSON.parse(localStorage.getItem('user'))
-  const [newImg, setNewImg] = useState('')
+  const userLogged = JSON.parse(localStorage.getItem("user"))
+  const [newImg, setNewImg] = useState("")
 
   const options = {
     headers: {
-      authorization: 'Bearer ' + userLogged.data.token
-    }
+      authorization: "Bearer " + userLogged.data.token,
+    },
   }
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const UserDetails = () => {
       try {
         setIsLoading(true)
         const {
-          data: { data }
+          data: { data },
         } = await axios.get(`/users/${id}`, options)
         setUser(data)
         setNewImg(data.avatar)
@@ -44,34 +44,34 @@ const UserDetails = () => {
   }
   const updateUser = async () => {
     const formData = new FormData()
-    formData.append('name', user.name)
-    formData.append('email', user.email)
-    formData.append('contact', user.contact)
-    formData.append('role', user.role)
+    formData.append("name", user.name)
+    formData.append("email", user.email)
+    formData.append("contact", user.contact)
+    formData.append("role", user.role)
 
-    formData.append('avatar', newImg)
+    formData.append("avatar", newImg)
     try {
       Swal.fire({
-        title: 'Actualizando',
-        text: 'Espere por favor',
+        title: "Actualizando",
+        text: "Espere por favor",
         onBeforeOpen: () => {
           Swal.showLoading()
-        }
+        },
       })
-      user.avatar !== '' && formData.append('avatar', user.avatar)
+      user.avatar !== "" && formData.append("avatar", user.avatar)
       const { data } = await axios.put(`/users/${id}`, formData, options)
       Swal.fire({
-        title: 'Actualizado',
-        text: 'El usuario se actualizo correctamente',
-        icon: 'success'
+        title: "Actualizado",
+        text: "El usuario se actualizo correctamente",
+        icon: "success",
       })
-      navigate('/dashboard')
+      navigate("/dashboard")
     } catch (err) {
       console.log(err)
       Swal.fire({
-        title: 'Error',
-        text: 'No se pudo actualizar el usuario',
-        icon: 'error'
+        title: "Error",
+        text: "No se pudo actualizar el usuario",
+        icon: "error",
       })
     }
   }
@@ -80,31 +80,31 @@ const UserDetails = () => {
 
   const handleCancel = () => setIsModalVisible(false)
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     updateUser()
   }
   const handleOk = () => setIsModalVisible(false)
 
-  const validateFormat = e => {
+  const validateFormat = (e) => {
     if (e.target.files[0].type && e.target.files) {
       const image = e.target.files[0]
       if (
-        image.type === 'image/jpeg' ||
-        image.type === 'image/jpeg' ||
-        image.type === 'image/png' ||
-        image.type === 'image/gif'
+        image.type === "image/jpeg" ||
+        image.type === "image/jpeg" ||
+        image.type === "image/png" ||
+        image.type === "image/gif"
       ) {
         setNewImg(URL.createObjectURL(image))
         setUser({ ...user, avatar: image })
       } else {
         Swal.fire({
-          title: 'Error',
-          text: ' Just Images are allowed ',
-          icon: 'error',
-          confirmButtonText: 'Ok'
+          title: "Error",
+          text: " Just Images are allowed ",
+          icon: "error",
+          confirmButtonText: "Ok",
         })
-        e.target.value = ''
+        e.target.value = ""
       }
     }
   }
@@ -113,16 +113,16 @@ const UserDetails = () => {
     return (
       <>
         <Button onClick={showModal}>
-          <i className='fas fa-user-edit'></i>
+          <i className="fas fa-user-edit"></i>
         </Button>
         <Modal
-          title='Edita tu perfil'
+          title="Edita tu perfil"
           visible={isModalVisible}
           onOk={handleOk}
           onCancel={handleCancel}
         >
-          <img src={newImg} alt='avatar' className='w-50 mb-2 mx-auto' />
-          <input type='file' onChange={validateFormat} />
+          <img src={newImg} alt="avatar" className="w-50 mb-2 mx-auto" />
+          <input type="file" onChange={validateFormat} />
         </Modal>
       </>
     )
@@ -130,97 +130,99 @@ const UserDetails = () => {
 
   const { name, avatar, contact, email } = user
   return (
-    <div className='container'>
-      <h1 className='mt-3'>Editar Información</h1>
-      <div className='d-flex mt-1'>
+    <div className="container">
+      <h1 className="mt-3">Editar Información</h1>
+      <div className="d-flex mt-1">
         <Card
-          size='small'
+          size="small"
           hoverable
           loading={isLoading}
           actions={[<ModalEdit user={user} />]}
-          style={{ width: 250, margin: '10px' }}
+          style={{ width: 250, margin: "10px" }}
           cover={
             <img
-              alt='profile'
+              alt="profile"
               src={newImg}
               style={{
                 width: 220,
-                margin: '0 auto',
-                display: 'block',
-                maxHeight: 200
+                margin: "0 auto",
+                display: "block",
+                maxHeight: 200,
               }}
             />
           }
         ></Card>
         <form onSubmit={handleSubmit}>
-          <div className='card p-3 mt-2' style={{ width: '34rem' }}>
-            <div className='row mb-3'>
-              <label htmlFor='name' className='col-sm-3 fw-bold col-form-label'>
+          <div className="card p-3 mt-2" style={{ width: "34rem" }}>
+            <div className="row mb-3">
+              <label htmlFor="name" className="col-sm-3 fw-bold col-form-label">
                 Nombre
               </label>
-              <div className='col-sm-9'>
+              <div className="col-sm-9">
                 <input
-                  type='txt'
-                  className='form-control'
-                  id='name'
+                  type="txt"
+                  className="form-control"
+                  id="name"
                   value={name}
-                  onChange={e => setUser({ ...user, name: e.target.value })}
+                  onChange={(e) => setUser({ ...user, name: e.target.value })}
                 />
               </div>
             </div>
-            <div className='row mb-3'>
+            <div className="row mb-3">
               <label
-                htmlFor='email'
-                className='col-sm-3 fw-bold col-form-label'
+                htmlFor="email"
+                className="col-sm-3 fw-bold col-form-label"
               >
                 Email
               </label>
-              <div className='col-sm-9'>
+              <div className="col-sm-9">
                 <input
-                  type='email'
-                  className='form-control'
-                  id='email'
+                  type="email"
+                  className="form-control"
+                  id="email"
                   value={email}
-                  onChange={e => setUser({ ...user, email: e.target.value })}
+                  onChange={(e) => setUser({ ...user, email: e.target.value })}
                 />
               </div>
             </div>
-            <div className='row mb-3'>
+            <div className="row mb-3">
               <label
-                htmlFor='contact'
-                className='col-sm-3 fw-bold col-form-label'
+                htmlFor="contact"
+                className="col-sm-3 fw-bold col-form-label"
               >
                 Contacto
               </label>
-              <div className='col-sm-9'>
+              <div className="col-sm-9">
                 <input
-                  type='text'
-                  className='form-control'
-                  id='contact'
+                  type="text"
+                  className="form-control"
+                  id="contact"
                   value={contact}
-                  onChange={e => setUser({ ...user, contact: e.target.value })}
+                  onChange={(e) =>
+                    setUser({ ...user, contact: e.target.value })
+                  }
                 />
               </div>
             </div>
-            <div className='row mb-3'>
+            <div className="row mb-3">
               <label
-                htmlFor='contact'
-                className='col-sm-3 fw-bold col-form-label'
+                htmlFor="contact"
+                className="col-sm-3 fw-bold col-form-label"
               >
                 Role
               </label>
               <Select
-                defaultValue='admin'
+                defaultValue="admin"
                 style={{ width: 150 }}
                 onChange={handleChange}
               >
-                <Option value='admin'>Admin</Option>
-                <Option value='rh'>Recursos Humanos</Option>
-                <Option value='vendedor'>Vendedor</Option>
-                <Option value='bodeguero'>Bodeguero</Option>
+                <Option value="admin">Admin</Option>
+                <Option value="rh">Recursos Humanos</Option>
+                <Option value="vendedor">Vendedor</Option>
+                <Option value="bodeguero">Bodeguero</Option>
               </Select>
             </div>
-            <button type='submit' className='btn btn-primary btn-sm w-25 '>
+            <button type="submit" className="btn btn-primary btn-sm w-25 ">
               Save
             </button>
           </div>
